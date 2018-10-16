@@ -11,17 +11,20 @@ void setup() {
   float _x=width/2;
   float _y=height/2;
   int _pc=#FFA000;
-  myFlower1 = new Flower(_r1,_petals,_x,_y,_pc);
-  myFlower2 = new Flower(_r1,_petals,_x+random(-100,100),_y,_pc);
-  myFlower3 = new Flower(_r1,_petals,_x+50,_y,_pc);
+  myFlower1 = new Flower(_r1,_petals,_x,_y,_pc, 2, 2);
+  myFlower2 = new Flower(_r1,_petals,_x+random(-100,100),_y,_pc, 5, 5);
+  myFlower3 = new Flower(_r1,_petals,_x+50,_y,_pc, 7, 7);
 
 //  myFlower2 = new Flower();
 //   myFlower3 = new Flower();
 }
 
 void draw(){
+    background(#43AF76);
+
   myFlower1.display();
   myFlower2.display();
   myFlower3.display();
-  noLoop();
+
+  //noLoop();
 }
