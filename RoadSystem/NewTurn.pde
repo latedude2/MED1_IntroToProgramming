@@ -20,6 +20,7 @@ class NewTurn
     if(mouseX > x && mouseX < x + wid && mouseY > y && mouseY < y + hei)
     {
       active = false;
+      score = 0;
       return GenerateNewTiles();
     }
     else return null;

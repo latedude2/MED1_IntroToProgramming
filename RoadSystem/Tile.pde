@@ -8,7 +8,7 @@ class Tile
   int J;
   PImage tile;
   boolean justPlaced;
-  boolean active;
+  public boolean active;
   int selectedNr;
   int west;    //0 - nothing, 1 - traintrack, 2 - road
   int east;
@@ -43,32 +43,29 @@ class Tile
   {
     if(mouseX > x && mouseX < x + wid && mouseY > y && mouseY < y + hei)
     {
-        if(active)
+        if(justPlaced)
         {
-            if(justPlaced)
-            {
-              justPlaced = false;
-              tile = empty;
-              west = 0;
-              east = 0;
-              north = 0;
-              south = 0; 
-              
-              tileSelect[selectedNr].placed = false;
-              Selected = tileSelect[selectedNr];
-            }
-            else if(!Selected.placed && checkIfTileFits())
-            {
-              justPlaced = true;
-              tile = Selected.tile;
-              west = Selected.west;
-              east = Selected.east;
-              north = Selected.north;
-              south = Selected.south; 
-              Selected.placed = true;
-              selectedNr = Selected.selectedNr;
-              println("Placed tile: N: " + north + " S: " + south + " E:" + east + " W:" + west);
-            }
+          justPlaced = false;
+          tile = empty;
+          west = 0;
+          east = 0;
+          north = 0;
+          south = 0; 
+          
+          tileSelect[selectedNr].placed = false;
+          Selected = tileSelect[selectedNr];
+        }
+        else if(!Selected.placed && checkIfTileFits())
+        {
+          justPlaced = true;
+          tile = Selected.tile;
+          west = Selected.west;
+          east = Selected.east;
+          north = Selected.north;
+          south = Selected.south; 
+          Selected.placed = true;
+          selectedNr = Selected.selectedNr;
+          println("Placed tile: N: " + north + " S: " + south + " E:" + east + " W:" + west);
         }
     }
   }
