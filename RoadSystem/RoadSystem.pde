@@ -1,7 +1,15 @@
+//Sound
+import processing.sound.*;
+public SoundFile pencil;
+
+//Images
 PImage[] images = new PImage[9];
 PImage rotateImg;
 PImage reverseImg;
 PImage nextImg;
+PImage background;
+
+//Tiles
 TileSelect[] tileSelect = new TileSelect[4];
 public TileSelect Selected;
 public int mapSize = 7;
@@ -12,24 +20,25 @@ NewTurn next;
 void setup()
 {
   size(800, 600);
-
-  
   File file = new File(dataPath(""));
   println(file);
   String[] filenames = file.list();
   rotateImg = loadImage("Rotate.png");
   reverseImg = loadImage("Reverse.png");
   nextImg = loadImage("Next.png");
+  background = loadImage("Background.png");
+  pencil = new SoundFile(this, "Pencil.mp3");
 
   for(int i = 0; i < images.length; i++)
   {
     images[i] = loadImage(filenames[i]);
   }
+  
   for(int i = 0; i < mapSize; i++)
   {
     for(int j = 0; j < mapSize; j++)
     {
-      tiles[i][j] = new Tile(images[0], 250 + i*64, 50 + j * 64, 64, 64, 0, 0, 0, 0, i, j);
+      tiles[i][j] = new Tile(images[0], 300 + i*64, 50 + j * 64, 64, 64, 0, 0, 0, 0, i, j);
     }
   }
   next = new NewTurn(80, 350, 130, 50, nextImg);
@@ -38,6 +47,7 @@ void setup()
 }
 
 void draw() {
+  image(background, 278, 28);
   for(int i = 0; i < 4; i++)
   {
       tileSelect[i].show();
@@ -50,10 +60,18 @@ void draw() {
     }
   }
   next.show();
+  
+  //draw score
   rect(70, 415, 150, 45);
   textSize(32);
   fill(0, 102, 153);
   text("Score: " + score, 80, 450); 
+  fill(255, 255, 255);
+  //draw turn
+  rect(70, 465, 150, 45);
+  textSize(32);
+  fill(0, 102, 153);
+  text("Turn: " + turn, 80, 500); 
   fill(255, 255, 255);
 }
 void mouseClicked()
@@ -89,16 +107,20 @@ public void countScore()
   for(int i = 1; i < mapSize; i = i + 2)
   {
     if(tiles[0][i].active)
+      if(tiles[i][0].west != 0)
         score += StartCount(0, i, true);
         
     if(tiles[mapSize - 1][i].active)
+      if(tiles[i][0].east != 0)
         score += StartCount(mapSize - 1, i, true);
   }
   for(int i = 1; i < mapSize; i = i + 2)
   {
     if(tiles[i][0].active)
+      if(tiles[i][0].north != 0)
         score += StartCount(i, 0, true);
     if(tiles[i][mapSize - 1].active)
+      if(tiles[i][0].south != 0)
         score += StartCount(i, mapSize - 1, true);
         
   }
@@ -129,9 +151,9 @@ int countEast(int x, int y, boolean start)
     {
       if(tiles[x][y].east != 0)
       {
-        //println("Point from east");
+        println("Point from east");
         if(!start) return 1;
-        //else return 0;
+        else return 0;
       }
     }
   }
@@ -140,7 +162,11 @@ int countEast(int x, int y, boolean start)
     println("Going east");
     return StartCount(x + 1, y, false);
   }
-  else return 0;
+  else 
+  {
+    println("stopping at " + x +";" + y );
+    return 0;
+  }
 }
 int countWest(int x, int y, boolean start)
 {
@@ -150,9 +176,9 @@ int countWest(int x, int y, boolean start)
     {
       if(tiles[x][y].west != 0)
       {
-        //println("Point from west");
+        println("Point from west");
         if(!start) return 1;
-        //else return 0;
+        else return 0;
       }
     }
   }
@@ -161,7 +187,11 @@ int countWest(int x, int y, boolean start)
     println("Going west");
     return StartCount(x - 1, y, false);
   }
-  else return 0;
+  else 
+  {
+    println("stopping at " + x +";" + y );
+    return 0;
+  }
 }
 int countNorth(int x, int y, boolean start)
 {
@@ -171,18 +201,22 @@ int countNorth(int x, int y, boolean start)
     {
       if(tiles[x][y].north != 0)
       {
-        //println("Point from north");
+        println("Point from north");
         if(!start) return 1;
-        //else return 0;
+        else return 0;
       }
     }
   }
-  if(y < mapSize - 1 && tiles[x][y + 1].active && tiles[x][y].north != 0 && tiles[x][y].north == tiles[x][y + 1].south)
+  if(y > 0 && tiles[x][y - 1].active && tiles[x][y].north != 0 && tiles[x][y].north == tiles[x][y - 1].south)
   {
     println("Going north");
-    return StartCount(x, y + 1, false);
+    return StartCount(x, y - 1, false);
   }
-  else return 0;
+  else 
+  {
+    println("stopping at " + x +";" + y );
+    return 0;
+  }
 }
 int countSouth(int x, int y, boolean start)
 {
@@ -192,18 +226,22 @@ int countSouth(int x, int y, boolean start)
     {
       if(tiles[x][y].south != 0)
       {
-        //println("Point from south");
+        println("Point from south");
         if(!start) return 1;
-        //else return 0;
+        else return 0;
       }
     }
   }
-  if(y > 0 && tiles[x][y - 1].active && tiles[x][y].south != 0 && tiles[x][y].south == tiles[x][y - 1].north)
+  if(y < mapSize - 1 && tiles[x][y + 1].active && tiles[x][y].south != 0 && tiles[x][y].south == tiles[x][y + 1].north)
   {
     println("Going south");
-    return StartCount(x, y - 1, false);
+    return StartCount(x, y + 1, false);
   }
-  else return 0;
+  else 
+  {
+    println("stopping at " + x +";" + y);
+    return 0;
+  }
 }
 
   

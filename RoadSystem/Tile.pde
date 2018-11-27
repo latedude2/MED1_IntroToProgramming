@@ -45,6 +45,7 @@ class Tile
     {
         if(justPlaced)
         {
+          pencil.play();
           justPlaced = false;
           tile = empty;
           west = 0;
@@ -57,6 +58,7 @@ class Tile
         }
         else if(!Selected.placed && checkIfTileFits())
         {
+          pencil.play();
           justPlaced = true;
           tile = Selected.tile;
           west = Selected.west;
