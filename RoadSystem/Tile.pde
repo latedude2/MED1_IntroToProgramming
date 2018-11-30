@@ -36,6 +36,10 @@ class Tile
      {
          tint(200,200,255);
      }
+     else if(mouseX > x && mouseX < x + wid && mouseY > y && mouseY < y + hei)
+     {
+       tint(200,200,200);
+     }
      image(tile, x, y);
      tint(255,255,255);
   }

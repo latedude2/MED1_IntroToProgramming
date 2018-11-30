@@ -1,11 +1,12 @@
 class NewTurn
 {
-  int x;
-  int y;
-  int wid;
-  int hei;
-  PImage image;
-  boolean active;
+  int x;  //x coordinate of the button
+  int y;  //y coordinate of the button
+  int wid;  //the width of the button
+  int hei;  //the height of the button
+  PImage image;    
+  
+  //Constructor
   NewTurn(int X, int Y, int w, int h, PImage img)
   {
     x = X;
@@ -13,24 +14,30 @@ class NewTurn
     wid = w;
     hei = h;
     image = img;
-    active = false;
   }
+  //Check if this button is being pressed
+  //Returns a new array of tiles for selection by the user
   TileSelect[] checkForInput()
   {
+    //If mouse is within the confines of the button
     if(mouseX > x && mouseX < x + wid && mouseY > y && mouseY < y + hei)
     {
-      active = false;
+      //Reset the score and generate the new tiles
       score = 0;
       return GenerateNewTiles();
     }
     else return null;
   }
+  //Generates new tiles for the tile selection
   TileSelect[] GenerateNewTiles()
   {
-    TileSelect[] tileSelect = new TileSelect[4];
-    for(int i = 0; i < 4; i++)
+    //Create a new list of tiles
+    TileSelect[] tileSelect = new TileSelect[selectionAmount];
+    for(int i = 0; i < selectionAmount; i++)
     {
-      int randy = (int)random(1,9);
+      //Which tile to choose
+      int randy = (int)random(1,tileAmount);
+      //New tile sides
       int north = 0;
       int west = 0;
       int east = 0;
@@ -91,12 +98,24 @@ class NewTurn
         west = 0;
         east = 1;
       }
-      tileSelect[i] = new TileSelect(reverseImg, rotateImg, images[randy], 50, 50 + 70*i, 192, 64, west, east, north, south, i);
+      //Create new tile
+      int tileSelectX = 50;
+      int tileSelectYstart = 50;
+      int spaceBetweenTiles = 70;
+      int tileSelectWidth = 192;
+      int tileSelectHeight = 64;
+      tileSelect[i] = new TileSelect(reverseImg, rotateImg, images[randy], tileSelectX, tileSelectYstart + spaceBetweenTiles*i, tileSelectWidth, tileSelectHeight, west, east, north, south, i);
     }
     return tileSelect;
   }
+  //Show the button on the screen
   void show()
   {
+    if(mouseX > x && mouseX < x + wid && mouseY > y && mouseY < y + hei)
+     {
+       tint(200,200,200);
+     }
      image(image, x, y);
+     tint(255,255,255);
   }
 }

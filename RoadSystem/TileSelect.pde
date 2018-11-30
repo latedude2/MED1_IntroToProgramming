@@ -94,10 +94,25 @@ class TileSelect
     {
       tint(255, 255, 0);
     }
+    else if(mouseX > x + wid/3 && mouseX < x + wid/3*2 && mouseY > y && mouseY < y + hei)
+     {
+       tint(200,200,200);
+     }
     image(tile, x + wid/3, y);
     tint(255);
-    image(reverse, x + wid/3*2, y);
     
+    if(mouseX > x + wid/3*2 && mouseX < x + wid && mouseY > y && mouseY < y + hei)
+     {
+       tint(200,200,200);
+     }
+    image(reverse, x + wid/3*2, y);
+    tint(255);
+    
+    if(mouseX > x && mouseX < x + wid/3 && mouseY > y && mouseY < y + hei)
+     {
+       tint(200,200,200);
+     }
     image(rotate, x, y);    
+    tint(255);
   }
 }
