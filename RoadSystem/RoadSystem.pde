@@ -147,15 +147,15 @@ void mouseClicked()
 public void countScore()
 {
   //println("Counting score");
-  //Counting from the north and south exits
+  //Counting from the west and east exits
   for(int i = 1; i < mapSize; i = i + 2)
   {
     if(tiles[0][i].active)
-      if(tiles[i][0].west != 0)
+      if(tiles[0][i].west != 0)
         score += StartCount(0, i, true);
         
     if(tiles[mapSize - 1][i].active)
-      if(tiles[i][0].east != 0)
+      if(tiles[mapSize - 1][i].east != 0)
         score += StartCount(mapSize - 1, i, true);
   }
   //Counting from the east and west exits
@@ -165,7 +165,7 @@ public void countScore()
       if(tiles[i][0].north != 0)
         score += StartCount(i, 0, true);
     if(tiles[i][mapSize - 1].active)
-      if(tiles[i][0].south != 0)
+      if(tiles[i][mapSize - 1].south != 0)
         score += StartCount(i, mapSize - 1, true);
   }
   //Setiing all the tiles to active for score counting
