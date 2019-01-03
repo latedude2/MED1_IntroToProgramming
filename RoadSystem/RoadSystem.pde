@@ -128,9 +128,12 @@ void mouseClicked()
   if(next.checkForInput() != null)
   {
     //Incrementing the current turn
+    if(turn < 7)
+    {
     turn++;
     //changing the tiles
     tileSelect = next.checkForInput();
+    }
     countScore();
     
     //Setting the tiles to not just placed
@@ -308,7 +311,7 @@ int countSouth(int x, int y, boolean start)
     }
   }
   if(y < mapSize - 1 && tiles[x][y + 1].active && tiles[x][y].south != 0 && tiles[x][y].south == tiles[x][y + 1].north)
-  {  //if the tile has a tile to the south and it hasn't been reached before and this tile has a connection to the south and the connection matches the connection of the tile to the south
+  { //if the tile has a tile to the south and it hasn't been reached before and this tile has a connection to the south and the connection matches the connection of the tile to the south
     //println("Going south");
     //count points from the tile to the south
     return StartCount(x, y + 1, false);
